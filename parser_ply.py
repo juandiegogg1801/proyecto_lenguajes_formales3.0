@@ -26,7 +26,10 @@ def p_elemento(p):
                 | texto
                 | DECLARACION_XML
                 | DOCTYPE'''
-    p[0] = p[1]
+    if p.slice[1].type in ('DECLARACION_XML', 'DOCTYPE'):
+        p[0] = (p.slice[1].type, p[1])
+    else:
+        p[0] = p[1]
 
 def p_comentario(p):
     'comentario : COMENTARIO_HTML'
