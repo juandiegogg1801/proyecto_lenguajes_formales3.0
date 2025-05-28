@@ -1,0 +1,152 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> documento
+Rule 1     documento -> elementos
+Rule 2     elementos -> elementos elemento
+Rule 3     elementos -> elemento
+Rule 4     elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+Rule 5     elemento -> TEXTO
+Rule 6     elemento -> COMENTARIO_HTML
+
+Terminals, with rules where they appear
+
+COMENTARIO_HTML      : 6
+ETIQUETA_APERTURA    : 4
+ETIQUETA_CIERRE      : 4
+TEXTO                : 5
+error                : 
+
+Nonterminals, with rules where they appear
+
+documento            : 0
+elemento             : 2 3
+elementos            : 1 2 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . documento
+    (1) documento -> . elementos
+    (2) elementos -> . elementos elemento
+    (3) elementos -> . elemento
+    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (5) elemento -> . TEXTO
+    (6) elemento -> . COMENTARIO_HTML
+
+    ETIQUETA_APERTURA shift and go to state 4
+    TEXTO           shift and go to state 5
+    COMENTARIO_HTML shift and go to state 6
+
+    documento                      shift and go to state 1
+    elementos                      shift and go to state 2
+    elemento                       shift and go to state 3
+
+state 1
+
+    (0) S' -> documento .
+
+
+
+state 2
+
+    (1) documento -> elementos .
+    (2) elementos -> elementos . elemento
+    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (5) elemento -> . TEXTO
+    (6) elemento -> . COMENTARIO_HTML
+
+    $end            reduce using rule 1 (documento -> elementos .)
+    ETIQUETA_APERTURA shift and go to state 4
+    TEXTO           shift and go to state 5
+    COMENTARIO_HTML shift and go to state 6
+
+    elemento                       shift and go to state 7
+
+state 3
+
+    (3) elementos -> elemento .
+
+    ETIQUETA_APERTURA reduce using rule 3 (elementos -> elemento .)
+    TEXTO           reduce using rule 3 (elementos -> elemento .)
+    COMENTARIO_HTML reduce using rule 3 (elementos -> elemento .)
+    $end            reduce using rule 3 (elementos -> elemento .)
+    ETIQUETA_CIERRE reduce using rule 3 (elementos -> elemento .)
+
+
+state 4
+
+    (4) elemento -> ETIQUETA_APERTURA . elementos ETIQUETA_CIERRE
+    (2) elementos -> . elementos elemento
+    (3) elementos -> . elemento
+    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (5) elemento -> . TEXTO
+    (6) elemento -> . COMENTARIO_HTML
+
+    ETIQUETA_APERTURA shift and go to state 4
+    TEXTO           shift and go to state 5
+    COMENTARIO_HTML shift and go to state 6
+
+    elementos                      shift and go to state 8
+    elemento                       shift and go to state 3
+
+state 5
+
+    (5) elemento -> TEXTO .
+
+    ETIQUETA_APERTURA reduce using rule 5 (elemento -> TEXTO .)
+    TEXTO           reduce using rule 5 (elemento -> TEXTO .)
+    COMENTARIO_HTML reduce using rule 5 (elemento -> TEXTO .)
+    $end            reduce using rule 5 (elemento -> TEXTO .)
+    ETIQUETA_CIERRE reduce using rule 5 (elemento -> TEXTO .)
+
+
+state 6
+
+    (6) elemento -> COMENTARIO_HTML .
+
+    ETIQUETA_APERTURA reduce using rule 6 (elemento -> COMENTARIO_HTML .)
+    TEXTO           reduce using rule 6 (elemento -> COMENTARIO_HTML .)
+    COMENTARIO_HTML reduce using rule 6 (elemento -> COMENTARIO_HTML .)
+    $end            reduce using rule 6 (elemento -> COMENTARIO_HTML .)
+    ETIQUETA_CIERRE reduce using rule 6 (elemento -> COMENTARIO_HTML .)
+
+
+state 7
+
+    (2) elementos -> elementos elemento .
+
+    ETIQUETA_APERTURA reduce using rule 2 (elementos -> elementos elemento .)
+    TEXTO           reduce using rule 2 (elementos -> elementos elemento .)
+    COMENTARIO_HTML reduce using rule 2 (elementos -> elementos elemento .)
+    $end            reduce using rule 2 (elementos -> elementos elemento .)
+    ETIQUETA_CIERRE reduce using rule 2 (elementos -> elementos elemento .)
+
+
+state 8
+
+    (4) elemento -> ETIQUETA_APERTURA elementos . ETIQUETA_CIERRE
+    (2) elementos -> elementos . elemento
+    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (5) elemento -> . TEXTO
+    (6) elemento -> . COMENTARIO_HTML
+
+    ETIQUETA_CIERRE shift and go to state 9
+    ETIQUETA_APERTURA shift and go to state 4
+    TEXTO           shift and go to state 5
+    COMENTARIO_HTML shift and go to state 6
+
+    elemento                       shift and go to state 7
+
+state 9
+
+    (4) elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .
+
+    ETIQUETA_APERTURA reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    TEXTO           reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    COMENTARIO_HTML reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    $end            reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    ETIQUETA_CIERRE reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+

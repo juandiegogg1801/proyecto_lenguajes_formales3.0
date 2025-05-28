@@ -1,0 +1,11 @@
+<!-- Comentario HTML -->
+<div class="container">
+  <p id='parrafo1'>Hola Mundo</p>
+</div>
+<style>
+  /* Comentario CSS */
+  .container {
+    color: red;
+    font-size: 14px;
+  }
+</style>
