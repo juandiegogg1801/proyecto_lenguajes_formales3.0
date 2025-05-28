@@ -6,23 +6,35 @@ Rule 0     S' -> documento
 Rule 1     documento -> elementos
 Rule 2     elementos -> elementos elemento
 Rule 3     elementos -> elemento
-Rule 4     elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
-Rule 5     elemento -> TEXTO
-Rule 6     elemento -> COMENTARIO_HTML
+Rule 4     elemento -> comentario
+Rule 5     elemento -> etiqueta
+Rule 6     elemento -> texto
+Rule 7     elemento -> DECLARACION_XML
+Rule 8     elemento -> DOCTYPE
+Rule 9     comentario -> COMENTARIO_HTML
+Rule 10    texto -> TEXTO
+Rule 11    etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+Rule 12    etiqueta -> ETIQUETA_VACIA
 
 Terminals, with rules where they appear
 
-COMENTARIO_HTML      : 6
-ETIQUETA_APERTURA    : 4
-ETIQUETA_CIERRE      : 4
-TEXTO                : 5
+COMENTARIO_HTML      : 9
+DECLARACION_XML      : 7
+DOCTYPE              : 8
+ETIQUETA_APERTURA    : 11
+ETIQUETA_CIERRE      : 11
+ETIQUETA_VACIA       : 12
+TEXTO                : 10
 error                : 
 
 Nonterminals, with rules where they appear
 
+comentario           : 4
 documento            : 0
 elemento             : 2 3
-elementos            : 1 2 4
+elementos            : 1 2 11
+etiqueta             : 5
+texto                : 6
 
 Parsing method: LALR
 
@@ -32,17 +44,29 @@ state 0
     (1) documento -> . elementos
     (2) elementos -> . elementos elemento
     (3) elementos -> . elemento
-    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
-    (5) elemento -> . TEXTO
-    (6) elemento -> . COMENTARIO_HTML
+    (4) elemento -> . comentario
+    (5) elemento -> . etiqueta
+    (6) elemento -> . texto
+    (7) elemento -> . DECLARACION_XML
+    (8) elemento -> . DOCTYPE
+    (9) comentario -> . COMENTARIO_HTML
+    (11) etiqueta -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (12) etiqueta -> . ETIQUETA_VACIA
+    (10) texto -> . TEXTO
 
-    ETIQUETA_APERTURA shift and go to state 4
-    TEXTO           shift and go to state 5
-    COMENTARIO_HTML shift and go to state 6
+    DECLARACION_XML shift and go to state 7
+    DOCTYPE         shift and go to state 8
+    COMENTARIO_HTML shift and go to state 9
+    ETIQUETA_APERTURA shift and go to state 10
+    ETIQUETA_VACIA  shift and go to state 11
+    TEXTO           shift and go to state 12
 
     documento                      shift and go to state 1
     elementos                      shift and go to state 2
     elemento                       shift and go to state 3
+    comentario                     shift and go to state 4
+    etiqueta                       shift and go to state 5
+    texto                          shift and go to state 6
 
 state 1
 
@@ -54,99 +78,234 @@ state 2
 
     (1) documento -> elementos .
     (2) elementos -> elementos . elemento
-    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
-    (5) elemento -> . TEXTO
-    (6) elemento -> . COMENTARIO_HTML
+    (4) elemento -> . comentario
+    (5) elemento -> . etiqueta
+    (6) elemento -> . texto
+    (7) elemento -> . DECLARACION_XML
+    (8) elemento -> . DOCTYPE
+    (9) comentario -> . COMENTARIO_HTML
+    (11) etiqueta -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (12) etiqueta -> . ETIQUETA_VACIA
+    (10) texto -> . TEXTO
 
     $end            reduce using rule 1 (documento -> elementos .)
-    ETIQUETA_APERTURA shift and go to state 4
-    TEXTO           shift and go to state 5
-    COMENTARIO_HTML shift and go to state 6
+    DECLARACION_XML shift and go to state 7
+    DOCTYPE         shift and go to state 8
+    COMENTARIO_HTML shift and go to state 9
+    ETIQUETA_APERTURA shift and go to state 10
+    ETIQUETA_VACIA  shift and go to state 11
+    TEXTO           shift and go to state 12
 
-    elemento                       shift and go to state 7
+    elemento                       shift and go to state 13
+    comentario                     shift and go to state 4
+    etiqueta                       shift and go to state 5
+    texto                          shift and go to state 6
 
 state 3
 
     (3) elementos -> elemento .
 
-    ETIQUETA_APERTURA reduce using rule 3 (elementos -> elemento .)
-    TEXTO           reduce using rule 3 (elementos -> elemento .)
+    DECLARACION_XML reduce using rule 3 (elementos -> elemento .)
+    DOCTYPE         reduce using rule 3 (elementos -> elemento .)
     COMENTARIO_HTML reduce using rule 3 (elementos -> elemento .)
+    ETIQUETA_APERTURA reduce using rule 3 (elementos -> elemento .)
+    ETIQUETA_VACIA  reduce using rule 3 (elementos -> elemento .)
+    TEXTO           reduce using rule 3 (elementos -> elemento .)
     $end            reduce using rule 3 (elementos -> elemento .)
     ETIQUETA_CIERRE reduce using rule 3 (elementos -> elemento .)
 
 
 state 4
 
-    (4) elemento -> ETIQUETA_APERTURA . elementos ETIQUETA_CIERRE
-    (2) elementos -> . elementos elemento
-    (3) elementos -> . elemento
-    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
-    (5) elemento -> . TEXTO
-    (6) elemento -> . COMENTARIO_HTML
+    (4) elemento -> comentario .
 
-    ETIQUETA_APERTURA shift and go to state 4
-    TEXTO           shift and go to state 5
-    COMENTARIO_HTML shift and go to state 6
+    DECLARACION_XML reduce using rule 4 (elemento -> comentario .)
+    DOCTYPE         reduce using rule 4 (elemento -> comentario .)
+    COMENTARIO_HTML reduce using rule 4 (elemento -> comentario .)
+    ETIQUETA_APERTURA reduce using rule 4 (elemento -> comentario .)
+    ETIQUETA_VACIA  reduce using rule 4 (elemento -> comentario .)
+    TEXTO           reduce using rule 4 (elemento -> comentario .)
+    $end            reduce using rule 4 (elemento -> comentario .)
+    ETIQUETA_CIERRE reduce using rule 4 (elemento -> comentario .)
 
-    elementos                      shift and go to state 8
-    elemento                       shift and go to state 3
 
 state 5
 
-    (5) elemento -> TEXTO .
+    (5) elemento -> etiqueta .
 
-    ETIQUETA_APERTURA reduce using rule 5 (elemento -> TEXTO .)
-    TEXTO           reduce using rule 5 (elemento -> TEXTO .)
-    COMENTARIO_HTML reduce using rule 5 (elemento -> TEXTO .)
-    $end            reduce using rule 5 (elemento -> TEXTO .)
-    ETIQUETA_CIERRE reduce using rule 5 (elemento -> TEXTO .)
+    DECLARACION_XML reduce using rule 5 (elemento -> etiqueta .)
+    DOCTYPE         reduce using rule 5 (elemento -> etiqueta .)
+    COMENTARIO_HTML reduce using rule 5 (elemento -> etiqueta .)
+    ETIQUETA_APERTURA reduce using rule 5 (elemento -> etiqueta .)
+    ETIQUETA_VACIA  reduce using rule 5 (elemento -> etiqueta .)
+    TEXTO           reduce using rule 5 (elemento -> etiqueta .)
+    $end            reduce using rule 5 (elemento -> etiqueta .)
+    ETIQUETA_CIERRE reduce using rule 5 (elemento -> etiqueta .)
 
 
 state 6
 
-    (6) elemento -> COMENTARIO_HTML .
+    (6) elemento -> texto .
 
-    ETIQUETA_APERTURA reduce using rule 6 (elemento -> COMENTARIO_HTML .)
-    TEXTO           reduce using rule 6 (elemento -> COMENTARIO_HTML .)
-    COMENTARIO_HTML reduce using rule 6 (elemento -> COMENTARIO_HTML .)
-    $end            reduce using rule 6 (elemento -> COMENTARIO_HTML .)
-    ETIQUETA_CIERRE reduce using rule 6 (elemento -> COMENTARIO_HTML .)
+    DECLARACION_XML reduce using rule 6 (elemento -> texto .)
+    DOCTYPE         reduce using rule 6 (elemento -> texto .)
+    COMENTARIO_HTML reduce using rule 6 (elemento -> texto .)
+    ETIQUETA_APERTURA reduce using rule 6 (elemento -> texto .)
+    ETIQUETA_VACIA  reduce using rule 6 (elemento -> texto .)
+    TEXTO           reduce using rule 6 (elemento -> texto .)
+    $end            reduce using rule 6 (elemento -> texto .)
+    ETIQUETA_CIERRE reduce using rule 6 (elemento -> texto .)
 
 
 state 7
 
-    (2) elementos -> elementos elemento .
+    (7) elemento -> DECLARACION_XML .
 
-    ETIQUETA_APERTURA reduce using rule 2 (elementos -> elementos elemento .)
-    TEXTO           reduce using rule 2 (elementos -> elementos elemento .)
-    COMENTARIO_HTML reduce using rule 2 (elementos -> elementos elemento .)
-    $end            reduce using rule 2 (elementos -> elementos elemento .)
-    ETIQUETA_CIERRE reduce using rule 2 (elementos -> elementos elemento .)
+    DECLARACION_XML reduce using rule 7 (elemento -> DECLARACION_XML .)
+    DOCTYPE         reduce using rule 7 (elemento -> DECLARACION_XML .)
+    COMENTARIO_HTML reduce using rule 7 (elemento -> DECLARACION_XML .)
+    ETIQUETA_APERTURA reduce using rule 7 (elemento -> DECLARACION_XML .)
+    ETIQUETA_VACIA  reduce using rule 7 (elemento -> DECLARACION_XML .)
+    TEXTO           reduce using rule 7 (elemento -> DECLARACION_XML .)
+    $end            reduce using rule 7 (elemento -> DECLARACION_XML .)
+    ETIQUETA_CIERRE reduce using rule 7 (elemento -> DECLARACION_XML .)
 
 
 state 8
 
-    (4) elemento -> ETIQUETA_APERTURA elementos . ETIQUETA_CIERRE
-    (2) elementos -> elementos . elemento
-    (4) elemento -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
-    (5) elemento -> . TEXTO
-    (6) elemento -> . COMENTARIO_HTML
+    (8) elemento -> DOCTYPE .
 
-    ETIQUETA_CIERRE shift and go to state 9
-    ETIQUETA_APERTURA shift and go to state 4
-    TEXTO           shift and go to state 5
-    COMENTARIO_HTML shift and go to state 6
+    DECLARACION_XML reduce using rule 8 (elemento -> DOCTYPE .)
+    DOCTYPE         reduce using rule 8 (elemento -> DOCTYPE .)
+    COMENTARIO_HTML reduce using rule 8 (elemento -> DOCTYPE .)
+    ETIQUETA_APERTURA reduce using rule 8 (elemento -> DOCTYPE .)
+    ETIQUETA_VACIA  reduce using rule 8 (elemento -> DOCTYPE .)
+    TEXTO           reduce using rule 8 (elemento -> DOCTYPE .)
+    $end            reduce using rule 8 (elemento -> DOCTYPE .)
+    ETIQUETA_CIERRE reduce using rule 8 (elemento -> DOCTYPE .)
 
-    elemento                       shift and go to state 7
 
 state 9
 
-    (4) elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .
+    (9) comentario -> COMENTARIO_HTML .
 
-    ETIQUETA_APERTURA reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
-    TEXTO           reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
-    COMENTARIO_HTML reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
-    $end            reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
-    ETIQUETA_CIERRE reduce using rule 4 (elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    DECLARACION_XML reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    DOCTYPE         reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    COMENTARIO_HTML reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    ETIQUETA_APERTURA reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    ETIQUETA_VACIA  reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    TEXTO           reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    $end            reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+    ETIQUETA_CIERRE reduce using rule 9 (comentario -> COMENTARIO_HTML .)
+
+
+state 10
+
+    (11) etiqueta -> ETIQUETA_APERTURA . elementos ETIQUETA_CIERRE
+    (2) elementos -> . elementos elemento
+    (3) elementos -> . elemento
+    (4) elemento -> . comentario
+    (5) elemento -> . etiqueta
+    (6) elemento -> . texto
+    (7) elemento -> . DECLARACION_XML
+    (8) elemento -> . DOCTYPE
+    (9) comentario -> . COMENTARIO_HTML
+    (11) etiqueta -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (12) etiqueta -> . ETIQUETA_VACIA
+    (10) texto -> . TEXTO
+
+    DECLARACION_XML shift and go to state 7
+    DOCTYPE         shift and go to state 8
+    COMENTARIO_HTML shift and go to state 9
+    ETIQUETA_APERTURA shift and go to state 10
+    ETIQUETA_VACIA  shift and go to state 11
+    TEXTO           shift and go to state 12
+
+    elementos                      shift and go to state 14
+    elemento                       shift and go to state 3
+    comentario                     shift and go to state 4
+    etiqueta                       shift and go to state 5
+    texto                          shift and go to state 6
+
+state 11
+
+    (12) etiqueta -> ETIQUETA_VACIA .
+
+    DECLARACION_XML reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    DOCTYPE         reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    COMENTARIO_HTML reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    ETIQUETA_APERTURA reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    ETIQUETA_VACIA  reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    TEXTO           reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    $end            reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+    ETIQUETA_CIERRE reduce using rule 12 (etiqueta -> ETIQUETA_VACIA .)
+
+
+state 12
+
+    (10) texto -> TEXTO .
+
+    DECLARACION_XML reduce using rule 10 (texto -> TEXTO .)
+    DOCTYPE         reduce using rule 10 (texto -> TEXTO .)
+    COMENTARIO_HTML reduce using rule 10 (texto -> TEXTO .)
+    ETIQUETA_APERTURA reduce using rule 10 (texto -> TEXTO .)
+    ETIQUETA_VACIA  reduce using rule 10 (texto -> TEXTO .)
+    TEXTO           reduce using rule 10 (texto -> TEXTO .)
+    $end            reduce using rule 10 (texto -> TEXTO .)
+    ETIQUETA_CIERRE reduce using rule 10 (texto -> TEXTO .)
+
+
+state 13
+
+    (2) elementos -> elementos elemento .
+
+    DECLARACION_XML reduce using rule 2 (elementos -> elementos elemento .)
+    DOCTYPE         reduce using rule 2 (elementos -> elementos elemento .)
+    COMENTARIO_HTML reduce using rule 2 (elementos -> elementos elemento .)
+    ETIQUETA_APERTURA reduce using rule 2 (elementos -> elementos elemento .)
+    ETIQUETA_VACIA  reduce using rule 2 (elementos -> elementos elemento .)
+    TEXTO           reduce using rule 2 (elementos -> elementos elemento .)
+    $end            reduce using rule 2 (elementos -> elementos elemento .)
+    ETIQUETA_CIERRE reduce using rule 2 (elementos -> elementos elemento .)
+
+
+state 14
+
+    (11) etiqueta -> ETIQUETA_APERTURA elementos . ETIQUETA_CIERRE
+    (2) elementos -> elementos . elemento
+    (4) elemento -> . comentario
+    (5) elemento -> . etiqueta
+    (6) elemento -> . texto
+    (7) elemento -> . DECLARACION_XML
+    (8) elemento -> . DOCTYPE
+    (9) comentario -> . COMENTARIO_HTML
+    (11) etiqueta -> . ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
+    (12) etiqueta -> . ETIQUETA_VACIA
+    (10) texto -> . TEXTO
+
+    ETIQUETA_CIERRE shift and go to state 15
+    DECLARACION_XML shift and go to state 7
+    DOCTYPE         shift and go to state 8
+    COMENTARIO_HTML shift and go to state 9
+    ETIQUETA_APERTURA shift and go to state 10
+    ETIQUETA_VACIA  shift and go to state 11
+    TEXTO           shift and go to state 12
+
+    elemento                       shift and go to state 13
+    comentario                     shift and go to state 4
+    etiqueta                       shift and go to state 5
+    texto                          shift and go to state 6
+
+state 15
+
+    (11) etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .
+
+    DECLARACION_XML reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    DOCTYPE         reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    COMENTARIO_HTML reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    ETIQUETA_APERTURA reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    ETIQUETA_VACIA  reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    TEXTO           reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    $end            reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
+    ETIQUETA_CIERRE reduce using rule 11 (etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE .)
 

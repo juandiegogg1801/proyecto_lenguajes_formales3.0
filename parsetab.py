@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COMENTARIO_HTML ETIQUETA_APERTURA ETIQUETA_CIERRE TEXTOdocumento : elementoselementos : elementos elementoelementos : elementoelemento : ETIQUETA_APERTURA elementos ETIQUETA_CIERREelemento : TEXTOelemento : COMENTARIO_HTML'
+_lr_signature = 'COMENTARIO_HTML DECLARACION_XML DOCTYPE ETIQUETA_APERTURA ETIQUETA_CIERRE ETIQUETA_VACIA TEXTOdocumento : elementoselementos : elementos elemento\n| elementoelemento : comentario\n| etiqueta\n| texto\n| DECLARACION_XML\n| DOCTYPEcomentario : COMENTARIO_HTMLtexto : TEXTOetiqueta : ETIQUETA_APERTURA elementos ETIQUETA_CIERRE\n| ETIQUETA_VACIA'
     
-_lr_action_items = {'ETIQUETA_APERTURA':([0,2,3,4,5,6,7,8,9,],[4,4,-3,4,-5,-6,-2,4,-4,]),'TEXTO':([0,2,3,4,5,6,7,8,9,],[5,5,-3,5,-5,-6,-2,5,-4,]),'COMENTARIO_HTML':([0,2,3,4,5,6,7,8,9,],[6,6,-3,6,-5,-6,-2,6,-4,]),'$end':([1,2,3,5,6,7,9,],[0,-1,-3,-5,-6,-2,-4,]),'ETIQUETA_CIERRE':([3,5,6,7,8,9,],[-3,-5,-6,-2,9,-4,]),}
+_lr_action_items = {'DECLARACION_XML':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,],[7,7,-3,-4,-5,-6,-7,-8,-9,7,-12,-10,-2,7,-11,]),'DOCTYPE':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,],[8,8,-3,-4,-5,-6,-7,-8,-9,8,-12,-10,-2,8,-11,]),'COMENTARIO_HTML':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,],[9,9,-3,-4,-5,-6,-7,-8,-9,9,-12,-10,-2,9,-11,]),'ETIQUETA_APERTURA':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,],[10,10,-3,-4,-5,-6,-7,-8,-9,10,-12,-10,-2,10,-11,]),'ETIQUETA_VACIA':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,],[11,11,-3,-4,-5,-6,-7,-8,-9,11,-12,-10,-2,11,-11,]),'TEXTO':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,],[12,12,-3,-4,-5,-6,-7,-8,-9,12,-12,-10,-2,12,-11,]),'$end':([1,2,3,4,5,6,7,8,9,11,12,13,15,],[0,-1,-3,-4,-5,-6,-7,-8,-9,-12,-10,-2,-11,]),'ETIQUETA_CIERRE':([3,4,5,6,7,8,9,11,12,13,14,15,],[-3,-4,-5,-6,-7,-8,-9,-12,-10,-2,15,-11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'documento':([0,],[1,]),'elementos':([0,4,],[2,8,]),'elemento':([0,2,4,8,],[3,7,3,7,]),}
+_lr_goto_items = {'documento':([0,],[1,]),'elementos':([0,10,],[2,14,]),'elemento':([0,2,10,14,],[3,13,3,13,]),'comentario':([0,2,10,14,],[4,4,4,4,]),'etiqueta':([0,2,10,14,],[5,5,5,5,]),'texto':([0,2,10,14,],[6,6,6,6,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,10 +27,16 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> documento","S'",1,None,None,None),
-  ('documento -> elementos','documento',1,'p_documento','parser_ply.py',20),
-  ('elementos -> elementos elemento','elementos',2,'p_elementos_lista','parser_ply.py',26),
-  ('elementos -> elemento','elementos',1,'p_elementos_uno','parser_ply.py',31),
-  ('elemento -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE','elemento',3,'p_elemento_etiqueta','parser_ply.py',35),
-  ('elemento -> TEXTO','elemento',1,'p_elemento_texto','parser_ply.py',43),
-  ('elemento -> COMENTARIO_HTML','elemento',1,'p_elemento_comentario','parser_ply.py',47),
+  ('documento -> elementos','documento',1,'p_documento','parser_ply.py',12),
+  ('elementos -> elementos elemento','elementos',2,'p_elementos','parser_ply.py',16),
+  ('elementos -> elemento','elementos',1,'p_elementos','parser_ply.py',17),
+  ('elemento -> comentario','elemento',1,'p_elemento','parser_ply.py',24),
+  ('elemento -> etiqueta','elemento',1,'p_elemento','parser_ply.py',25),
+  ('elemento -> texto','elemento',1,'p_elemento','parser_ply.py',26),
+  ('elemento -> DECLARACION_XML','elemento',1,'p_elemento','parser_ply.py',27),
+  ('elemento -> DOCTYPE','elemento',1,'p_elemento','parser_ply.py',28),
+  ('comentario -> COMENTARIO_HTML','comentario',1,'p_comentario','parser_ply.py',32),
+  ('texto -> TEXTO','texto',1,'p_texto','parser_ply.py',36),
+  ('etiqueta -> ETIQUETA_APERTURA elementos ETIQUETA_CIERRE','etiqueta',3,'p_etiqueta','parser_ply.py',40),
+  ('etiqueta -> ETIQUETA_VACIA','etiqueta',1,'p_etiqueta','parser_ply.py',41),
 ]
