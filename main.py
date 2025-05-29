@@ -1,5 +1,6 @@
 from lexer_ply import lexer
 from parser_ply import parser
+from semantico import AnalizadorSemantico
 
 def imprimir_tokens(tokens):
     for token in tokens:
@@ -66,3 +67,9 @@ imprimir_tokens(tokens)
 print("\nÁrbol sintáctico:")
 arbol = parser.parse(data)
 imprimir_arbol(arbol)
+
+# Análisis semantico
+print("\nAnálisis semántico:")
+analizador = AnalizadorSemantico(arbol)
+descripcion = analizador.analizar()
+print(descripcion)
