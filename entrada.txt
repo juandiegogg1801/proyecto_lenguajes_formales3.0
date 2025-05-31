@@ -20,7 +20,7 @@
       }
 
       h1 {
-        hola: #003366;
+        color: #003366;
         text-align: center;
       }
 

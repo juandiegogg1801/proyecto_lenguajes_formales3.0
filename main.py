@@ -60,6 +60,7 @@ while True:
         break
     tokens.append(tok)
 
+# Análisis léxico
 print("Tokens léxicos (filtrados):")
 imprimir_tokens(tokens)
 

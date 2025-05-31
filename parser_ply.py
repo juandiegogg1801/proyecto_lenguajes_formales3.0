@@ -16,9 +16,15 @@ def p_elementos(p):
     '''elementos : elementos elemento
                  | elemento'''
     if len(p) == 3:
-        p[0] = p[1] + [p[2]]
+        if p[2] is not None:
+            p[0] = p[1] + [p[2]]
+        else:
+            p[0] = p[1]
     else:
-        p[0] = [p[1]]
+        if p[1] is not None:
+            p[0] = [p[1]]
+        else:
+            p[0] = []
 
 def p_elemento(p):
     '''elemento : comentario
@@ -37,7 +43,10 @@ def p_comentario(p):
 
 def p_texto(p):
     'texto : TEXTO'
-    p[0] = ('TEXTO', p[1])
+    if p[1].strip() == '':
+        p[0] = None  # Ignora TEXTO vacío
+    else:
+        p[0] = ('TEXTO', p[1])
 
 def p_etiqueta(p):
     '''etiqueta : ETIQUETA_APERTURA elementos ETIQUETA_CIERRE
