@@ -8,7 +8,6 @@ def imprimir_tokens(tokens):
         valor = token.value
         if tipo == 'TEXTO' and valor.strip() == '':
             continue
-        # Si es texto multilínea, imprimir con saltos de línea reales indentado
         if tipo == 'TEXTO' and '\n' in valor:
             print(f"{tipo}:")
             for linea in valor.splitlines():
@@ -16,38 +15,31 @@ def imprimir_tokens(tokens):
         else:
             print(f"{tipo}: {repr(valor)}")
 
-
 def imprimir_arbol(nodo, nivel=0):
     indent = '  ' * nivel
-
     if isinstance(nodo, tuple):
         etiqueta = nodo[0]
         contenido = nodo[1:]
         print(f"{indent}{etiqueta}:")
         for elem in contenido:
             imprimir_arbol(elem, nivel + 1)
-
     elif isinstance(nodo, list):
         for elem in nodo:
             imprimir_arbol(elem, nivel)
-
     else:
-        # Nodo hoja (string)
-        texto = nodo.strip('\r\n ')  # Quitar solo saltos y espacios en los extremos
-        if texto == '':
-            # No imprimir líneas vacías o solo espacios
+        if nodo is None:
             return
-
+        texto = nodo.strip('\r\n ')
+        if texto == '':
+            return
         if '\n' in nodo:
-            # Si el texto tiene saltos, imprimir cada línea no vacía
-            lineas = nodo.splitlines()
-            for linea in lineas:
+            for linea in nodo.splitlines():
                 if linea.strip() != '':
                     print(f"{indent}{linea.rstrip()}")
         else:
             print(f"{indent}{repr(nodo)}")
 
-# Lee tu archivo de entrada
+# Leer archivo
 with open('entrada.txt', 'r', encoding='utf-8') as f:
     data = f.read()
 
@@ -60,17 +52,26 @@ while True:
         break
     tokens.append(tok)
 
-# Análisis léxico
 print("Tokens léxicos (filtrados):")
 imprimir_tokens(tokens)
 
 # Análisis sintáctico
 print("\nÁrbol sintáctico:")
-arbol = parser.parse(data)
-imprimir_arbol(arbol)
+parser.error = False  # ← reiniciar bandera de error
 
-# Análisis semantico
-print("\nAnálisis semántico:")
-analizador = AnalizadorSemantico(arbol)
-descripcion = analizador.analizar()
-print(descripcion)
+try:
+    arbol = parser.parse(data)
+except SyntaxError as e:
+    print(f"Se detuvo el análisis por error: {e}")
+    arbol = None
+
+if not parser.error and arbol is not None:
+    imprimir_arbol(arbol)
+
+    # Análisis semántico
+    print("\nAnálisis semántico:")
+    analizador = AnalizadorSemantico(arbol)
+    descripcion = analizador.analizar()
+    print(descripcion)
+else:
+    print("No se pudo generar el árbol sintáctico ni se realizó el análisis semántico.")

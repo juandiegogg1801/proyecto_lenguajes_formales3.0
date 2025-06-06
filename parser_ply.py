@@ -55,8 +55,11 @@ def p_etiqueta(p):
         nombre_abr = get_tag_name(p[1])
         nombre_cie = get_tag_name(p[3])
         if nombre_abr != nombre_cie:
-            print(f"Error: etiqueta de apertura {nombre_abr} no coincide con cierre {nombre_cie}")
-        p[0] = ('ETIQUETA', p[1], p[2], p[3])
+            print(f"Error: etiqueta de apertura <{nombre_abr}> no coincide con cierre </{nombre_cie}>")
+            p.parser.error = True
+            p[0] = None  # Esto es importante para no generar nodos mal formados
+        else:
+            p[0] = ('ETIQUETA', p[1], p[2], p[3])
     else:
         p[0] = ('ETIQUETA_VACIA', p[1])
 
@@ -65,5 +68,9 @@ def p_error(p):
         print(f"Error sintáctico en token '{p.value}' (línea {p.lineno})")
     else:
         print("Error sintáctico en EOF")
+    parser.error = True  # ← Marcamos error para el main
+    raise SyntaxError("Final inesperado o token inesperado.")
 
+# Construcción del parser
 parser = yacc.yacc()
+parser.error = False  # Inicializa atributo de error

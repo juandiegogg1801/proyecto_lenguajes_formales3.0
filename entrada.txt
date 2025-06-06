@@ -16,7 +16,7 @@
       body {
         background-color: #f9f9f9;
         font-family: Verdana, sans-serif;
-        margin: 20px;
+        hola: 20px;
       }
 
       h1 {
